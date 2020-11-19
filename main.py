@@ -27,11 +27,11 @@ def best_match_asset():
    
 @app.route("/api/bert", methods=['POST'])
 def esrc_bert():
-     try:
+    
+    try:
         question = request.json['esrc_question']
         
         return bert(question)
-            
     except:
         return 'Question not submitted'
 
