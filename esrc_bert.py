@@ -47,16 +47,16 @@ def bert(question):
     # Find the tokens with the highest `start` and `end` scores.
     answer_start = torch.argmax(start_scores)
     answer_end = torch.argmax(end_scores)
-
+    
     # Get the string versions of the input tokens.
     tokens = tokenizer.convert_ids_to_tokens(input_ids)
 
     # Start with the first token.
     answer = tokens[answer_start]
-
+    
     # Select the remaining answer tokens and join them with whitespace.
     for i in range(answer_start + 1, answer_end + 1):
-        
+
         # If it's a subword token, then recombine it with the previous token.
         if tokens[i][0:2] == '##':
             answer += tokens[i][2:]
@@ -65,4 +65,4 @@ def bert(question):
         else:
             answer += ' ' + tokens[i]
 
-    return json.loads("' + answer + '")
+    return (answer)

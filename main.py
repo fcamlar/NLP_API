@@ -1,12 +1,14 @@
 from tfidf import tfidf
+from links import links
 from esrc_bert import bert
 from flask import jsonify, request
 from flask import Flask
 import json
+from flask_cors import CORS
 
 
 app = Flask(__name__)
-
+CORS(app)
 
 ################## Model Functions ######################
 
@@ -23,6 +25,16 @@ def best_match_asset():
     except:
         return 'Query not submitted'
 
+@app.route("/api/links",  methods=['GET', 'POST'])
+def best_match_links():
+    
+    try:
+        query = request.json['query']
+        
+        return links(query)
+            
+    except:
+        return 'Query not submitted'
 
    
 @app.route("/api/bert", methods=['POST'])
