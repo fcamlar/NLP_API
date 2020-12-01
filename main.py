@@ -1,6 +1,7 @@
 from tfidf import tfidf
 from links import links
 from esrc_bert import bert
+from tfidf_bert import bert_answers
 from flask import jsonify, request
 from flask import Flask
 import json
@@ -41,12 +42,22 @@ def best_match_links():
 def esrc_bert():
     
     try:
-        question = request.json['esrc_question']
-        
+        question = request.json['query']
+
         return bert(question)
     except:
         return 'Question not submitted'
 
+@app.route("/api/bert_long", methods=['POST'])
+def esrc_bert_long():
+    
+    try:
+        question = request.json['query']
+        no_answers = request.json['no_answers']
+        
+        return bert_answers(question, no_answers)
+    except:
+        return 'Question not submitted'
 
 
 if __name__ == "__main__":
