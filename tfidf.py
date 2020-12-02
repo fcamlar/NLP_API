@@ -74,6 +74,11 @@ def tfidf(query):
     Name = [data3.loc[i, 'Asset Name'] for i in idx]
     ID = [data3.loc[i, 'Asset ID'] for i in idx]
     
-    result = pd.DataFrame({'Asset ID': ID, 'Asset Name':Name, 'Description':A_Desc, 'Match Percentage': matches})
+    results = pd.DataFrame({'Asset ID': ID, 'Asset Name':Name, 'Description':A_Desc, 'Match Percentage': matches})
 
-    return result.to_json()
+    results = results.to_dict()
+    result= {
+        "model": "tfidf_asset_reccomendation",
+        "results": results
+    }
+    return result

@@ -62,6 +62,10 @@ def links(query):
     Description = [data.loc[i, 'Description'] for i in idx]
     Url = [data.loc[i, 'Urls'] for i in idx] # Description of CD & KPI  
 
-    result = pd.DataFrame({'Title': Title, 'Description':Description, 'Url':Url, 'Match Percentage': matches})
-
-    return result.to_json()
+    results = pd.DataFrame({'Title': Title, 'Description':Description, 'Url':Url, 'Match Percentage': matches})
+    results = results.to_dict()
+    result= {
+        "model": "links_search",
+        "results": results
+    }
+    return result

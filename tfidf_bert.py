@@ -117,7 +117,7 @@ def bert_answers(question, no_answers):
     else:
         crop_results = top_results
 
-    result = []
+    results = []
     for index, row in crop_results.iteritems():
         sect = re.findall(r'(\d+(?:\.\d+)?)', row)[0]
         reader = DocumentReader()
@@ -128,6 +128,11 @@ def bert_answers(question, no_answers):
             "section": sect,
             "answer": reader.get_answer()
         }
-        result.append(object)
+        results.append(object)
+    
+    result= {
+        "model": "ESRC_doc_bert",
+        "results": results
+    }
 
     return json.dumps(result)
