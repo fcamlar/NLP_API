@@ -84,14 +84,9 @@ class DocumentReader:
 
                 answer_start = torch.argmax(answer_start_scores)
                 answer_end = torch.argmax(answer_end_scores) + 1
-                print("-----------------------------")
-                print("torch.max(answer_start_scores): ", torch.max(answer_start_scores))
-                print("torch.max(answer_end_scores): ", torch.max(answer_end_scores))
 
                 ans = self.convert_ids_to_string(chunk['input_ids'][0][answer_start:answer_end])
-                print(ans)
                 if ans != '[CLS]':
-                    
                     answer += ans + " / "
             return answer
         else:
@@ -99,13 +94,9 @@ class DocumentReader:
 
             answer_start = torch.argmax(answer_start_scores)  # get the most likely beginning of answer with the argmax of the score
             answer_end = torch.argmax(answer_end_scores) + 1  # get the most likely end of answer with the argmax of the score
-            print("-----------------------------")
-            print("torch.max(answer_start_scores): ", torch.max(answer_start_scores))
-            print("torch.max(answer_end_scores): ", torch.max(answer_end_scores))
-            
-            answer = self.convert_ids_to_string(self.inputs['input_ids'][0][answer_start:answer_end])
-            print(answer)
-            return answer
+        
+            return self.convert_ids_to_string(self.inputs['input_ids'][0][
+                                              answer_start:answer_end])
 
     def convert_ids_to_string(self, input_ids):
         return self.tokenizer.convert_tokens_to_string(self.tokenizer.convert_ids_to_tokens(input_ids))
@@ -134,7 +125,7 @@ def bert_answers(question, no_answers):
         reader.tokenize(question, text)
         object= {
             "index": index+1,
-            "section": "Section " + sect,
+            "section": sect,
             "answer": reader.get_answer()
         }
         results.append(object)
